@@ -1,0 +1,16 @@
+{
+  "manifest_version": 3,
+  "name": "Poker Stat Calculator",
+  "version": "1.0",
+  "permissions": ["activeTab", "clipboardWrite"],
+  "content_scripts": [
+    {
+      "matches": ["https://smarthand.pro/gg/*"],
+      "js": ["content.js"],
+      "run_at": "document_end"
+    }
+  ],
+  "action": {
+    "default_popup": "popup.html"
+  }
+}
