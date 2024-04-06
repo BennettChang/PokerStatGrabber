@@ -5,3 +5,5 @@ Steps to use:
 2. Click the extension and select basic/advanced stats
 3. Click back on the webpage
 4. Now the stats are copied to clipboard
+
+Note: custom hud is required
