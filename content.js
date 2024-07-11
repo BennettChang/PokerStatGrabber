@@ -29,22 +29,6 @@ chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
     }
 });
 
-// button that also lets you grab stats on the page. This doesn't work because the page dynamically reloads the stats instead of refreshing so the event can't get triggered
-// window.addEventListener('load', function() {
-//     setTimeout(function() {
-//         const newButton = document.createElement('button');
-//         newButton.textContent = 'Grab Stats';
-//         newButton.setAttribute('id', 'stat-grabber-button');
-//         const hudTable = document.querySelector('.ui-sortable-handle');
-//         hudTable.insertAdjacentElement('afterend', newButton);
-
-//         const styleElement = document.createElement('style');
-//         styleElement.textContent = cssRules;
-//         document.head.appendChild(styleElement);
-//         document.getElementById('stat-grabber-button').addEventListener('click', printStat);
-//     }, 800); 
-// });
-
 function removeSmallTags() {
     const smallTags = document.querySelectorAll('.stat small');
     if(smallTags.length > 0) {
@@ -62,7 +46,7 @@ function printStat() {
     let stat_string = "";
 
     // designates how many stats before a line should break
-    let linebreaks = [8, 3, 1, 2, 3, 4, 5, 6, 5];
+    let linebreaks = [8, 5, 1, 2, 3, 4, 5, 6, 5];
     let lb_idx = 0;
     let first_element = true;
     let extra_newline = true;
@@ -71,6 +55,24 @@ function printStat() {
         // divides up the general stats and positional stats (lb_idx = 2 is where the positional stats start on the hud)
 
         switch (true) {
+            case lb_idx == 1:
+                if (first_element) {
+                    stat_string += Math.round(element.textContent.trim());
+                    first_element = false;
+                } else if (linebreaks[lb_idx] == 2) { 
+                    stat_string += "/BTNCC:" + Math.round(element.textContent.trim());
+                } else if (linebreaks[lb_idx] == 1) {
+                    stat_string += "/SBCC:" + Math.round(element.textContent.trim());
+                } else {
+                    stat_string += "/" + Math.round(element.textContent.trim());
+                }
+                linebreaks[lb_idx] -= 1;
+
+                if (linebreaks[lb_idx] == 0) {
+                    lb_idx += 1;
+                    first_element = true;
+                }
+            break;
             case lb_idx <= 1:
                 if (first_element) {
                     stat_string += Math.round(element.textContent.trim());
@@ -110,6 +112,52 @@ function printStat() {
                 
                 if (linebreaks[lb_idx] == 0) {
                     stat_string += "\n";
+                    lb_idx += 1;
+                    first_element = true;
+                }
+            break;
+            case lb_idx == 7:
+                if (first_element) {
+                    stat_string +=  "\nBvBF3B:" + Math.round(element.textContent.trim());
+                    first_element = false;
+                } else if (linebreaks[lb_idx] == 5) { 
+                    stat_string += "/FCB:" + Math.round(element.textContent.trim());
+                } else if (linebreaks[lb_idx] == 4) {
+                    stat_string += "/FTB:" + Math.round(element.textContent.trim());
+                } else if (linebreaks[lb_idx] == 3) {
+                    stat_string += "/FSQ:" + Math.round(element.textContent.trim());
+                } else if (linebreaks[lb_idx] == 2) {
+                    stat_string += "/F3B:" + Math.round(element.textContent.trim());
+                } else if (linebreaks[lb_idx] == 1) {
+                    stat_string += "/F4B:" + Math.round(element.textContent.trim());
+                } else {
+                    stat_string += "/" + Math.round(element.textContent.trim());
+                }
+                linebreaks[lb_idx] -= 1;
+
+                if (linebreaks[lb_idx] == 0) {
+                    lb_idx += 1;
+                    first_element = true;
+                }
+            break;
+            case lb_idx == 8:
+                if (first_element) {
+                    stat_string +=  "\nBTN:" + Math.round(element.textContent.trim());
+                    first_element = false;
+                } else if (linebreaks[lb_idx] == 4) { 
+                    stat_string += "/SB:" + Math.round(element.textContent.trim());
+                } else if (linebreaks[lb_idx] == 3) {
+                    stat_string += "/SQ:" + Math.round(element.textContent.trim());
+                } else if (linebreaks[lb_idx] == 2) {
+                    stat_string += "/CBF:" + Math.round(element.textContent.trim());
+                } else if (linebreaks[lb_idx] == 1) {
+                    stat_string += "/CBT:" + Math.round(element.textContent.trim());
+                } else {
+                    stat_string += "/" + Math.round(element.textContent.trim());
+                }
+                linebreaks[lb_idx] -= 1;
+
+                if (linebreaks[lb_idx] == 0) {
                     lb_idx += 1;
                     first_element = true;
                 }
